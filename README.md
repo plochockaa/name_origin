@@ -26,7 +26,7 @@ The current implementation uses the following datasets:
 ### Future Data Enhancements
 
 - Scrape popular baby names from official national statistics sites for more coverage across countries.
-- - **[Hobson/surname-nationality (HuggingFace)](https://huggingface.co/datasets/Hobson/surname-nationality)** – provides surnames with nationality mappings. 
+- **[Hobson/surname-nationality (HuggingFace)](https://huggingface.co/datasets/Hobson/surname-nationality)** – provides surnames with nationality mappings. 
 - Leverage Wikipedia and other open sources to expand coverage of forenames and surnames globally.  
 
 ---
