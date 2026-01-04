@@ -21,13 +21,13 @@ The current implementation uses the following datasets:
 
 - **[Popular Names by Country (GitHub)](https://github.com/sigpwned/popular-names-by-country-dataset)** – lists popular forenames and surnames per country.  
 - **[names-dataset (PyPI)](https://pypi.org/project/names-dataset/)** – a large first and last name dataset with country distributions.  
-- **[Hobson/surname-nationality (HuggingFace)](https://huggingface.co/datasets/Hobson/surname-nationality)** – provides surnames with nationality mappings.  
+ 
 
 ### Future Data Enhancements
 
-- Scrape popular baby names from official national statistics sites for **more coverage across countries**.  
-- Leverage **Wikipedia and other open sources** to expand coverage of forenames and surnames globally.  
-- Maintain **normalized country codes** (ISO2/ISO3) for consistency.
+- Scrape popular baby names from official national statistics sites for more coverage across countries.
+- - **[Hobson/surname-nationality (HuggingFace)](https://huggingface.co/datasets/Hobson/surname-nationality)** – provides surnames with nationality mappings. 
+- Leverage Wikipedia and other open sources to expand coverage of forenames and surnames globally.  
 
 ---
 
