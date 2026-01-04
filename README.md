@@ -33,12 +33,21 @@ The current implementation uses the following datasets:
 
 ## Algorithm
 
+```mermaid
+graph TD
+    A[Input: Forename, Surname] --> B[Normalization]
+    B --> C[Transliteration if applicable]
+    C --> D[Combined lookup probabilities]
+    D --> E[Output: Countries ranked by probability]
+```
+
+    
 The core algorithm estimates the likelihood of a name belonging to a particular country by combining **forename and surname distributions** across datasets.  
 
 High-level steps:  
 
 1. **Normalize inputs**: lowercase, remove accents, strip spaces/hyphens.  
-2. **Handle transliteration variants**: map common variations of names from non-Latin scripts.  
+2. **Handle transliteration variants**: if applicable map common variations of names from non-Latin scripts.  
 3. **Lookup probabilities**: retrieve probability distributions from datasets.  
 4. **Combine forename and surname probabilities**: using a weighted or multiplicative model.  
 5. **Return ranked list of countries** with probabilities.  
