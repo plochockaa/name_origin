@@ -11,7 +11,7 @@ The algorithm might assign probabilities like:
 |---------|------------|
 | UK  | 0.85       |
 | USA | 0.10       |
-| Australia     | 0.05       |
+| Australia     | 0.05   |
 
 ---
 
@@ -20,7 +20,7 @@ The algorithm might assign probabilities like:
 The current implementation uses the following datasets to create a synthetic set of forenames, surnames and countries:  
 
 - [Popular Names by Country (GitHub)](https://github.com/sigpwned/popular-names-by-country-dataset) – lists popular forenames and surnames per country.  
-- [names-dataset (PyPI)](https://pypi.org/project/names-dataset/)** – a large first and last name dataset with country distributions.  
+- [names-dataset (PyPI)](https://pypi.org/project/names-dataset/) – a large first and last name dataset with country distributions.  
  
 
 ### Future Data Enhancements
