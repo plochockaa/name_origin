@@ -111,6 +111,20 @@ Example output on the test set:
 | Kim Lee | Republic of Korea  | 0.60     |
 | Александр Иванов          | Russian Federation           |  0.60       |
 | Ελένη Αθανασίου            | Greece          |  0.85       |
+| Aleksandra Płochocka |  Bulgaria | 0.6%  |
+
+
+When running an evaluation looking at 100 first names and surnames picked using a train-test split I found the algorithm had 100% accuracy. This is unlikely and shows there is an error with evaluation. 
+
+<img width="512" height="556" alt="Screenshot 2026-01-05 at 21 54 12" src="https://github.com/user-attachments/assets/c68aec0f-52f2-4ab9-9c79-375166606429" />
+
+Note, here I used my own name and can see that I do not get Poland, rather: 
+
+<img width="443" height="307" alt="Screenshot 2026-01-05 at 21 56 57" src="https://github.com/user-attachments/assets/083674c5-cf9f-4a34-b746-a3bf244d145c" />
+
+There may be errors with the algorithmic approach due to the 1 to many name to countries (hence their evaluation is marked as accurate is catching 1 of the possible listed countries).
+
+
 
 > Preliminary results show strong alignment for **distinctive names**; ambiguous or multicultural names are distributed over multiple countries.
 
