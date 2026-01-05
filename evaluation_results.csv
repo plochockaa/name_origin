@@ -1,0 +1,41 @@
+name,type,true_countries,candidate_countries,predicted_country,probability,correct,status
+noor,forename,"Netherlands, Saudi Arabia, United Arab Emirates","United Arab Emirates, Saudi Arabia, Netherlands",Saudi Arabia,0.6,True,success
+amahle,forename,South Africa,South Africa,South Africa,1.0,True,single_candidate
+chien-hung,forename,"Taiwan, Province of China","Taiwan, Province of China","Taiwan, Province of China",1.0,True,single_candidate
+emily,forename,"Aruba, Ecuador, Ireland, Jersey, Luxembourg, Panama, United Kingdom","Jersey, Ecuador, Aruba, Panama, Luxembourg, United Kingdom, Ireland",United Kingdom,0.38,True,success
+khawla,forename,Tunisia,Tunisia,Tunisia,1.0,True,single_candidate
+kathem,forename,Iraq,Iraq,Iraq,1.0,True,single_candidate
+lidia,forename,"Bolivia, Plurinational State of","Bolivia, Plurinational State of","Bolivia, Plurinational State of",1.0,True,single_candidate
+nutsa,forename,Georgia,Georgia,Georgia,1.0,True,single_candidate
+raul,forename,Azerbaijan,Azerbaijan,Azerbaijan,1.0,True,single_candidate
+hosna,forename,Egypt,Egypt,Egypt,1.0,True,single_candidate
+huseyn,forename,Azerbaijan,Azerbaijan,Azerbaijan,1.0,True,single_candidate
+august,forename,"Denmark, El Salvador","El Salvador, Denmark",Denmark,0.85,True,success
+naura,forename,Malaysia,Malaysia,Malaysia,1.0,True,single_candidate
+zala,forename,Slovenia,Slovenia,Slovenia,1.0,True,single_candidate
+sarah,forename,"Israel, Lebanon, Libya, Luxembourg, United Arab Emirates","Israel, Libya, United Arab Emirates, Lebanon, Luxembourg",Israel,0.5,True,success
+matyas,forename,Czechia,Czechia,Czechia,1.0,True,single_candidate
+tiare,forename,French Polynesia,French Polynesia,French Polynesia,1.0,True,single_candidate
+aminata,forename,Mali,Mali,Mali,1.0,True,single_candidate
+victoria,forename,"Argentina, Colombia, Ecuador, Mexico, Moldova, Republic of, Monaco, Puerto Rico, Romania, Venezuela, Bolivarian Republic of","Puerto Rico, Monaco, Ecuador, Venezuela, Bolivarian Republic of, Argentina, Romania, Moldova, Republic of, Colombia, Mexico",Romania,0.35,True,success
+yara,forename,Netherlands,Netherlands,Netherlands,1.0,True,single_candidate
+jun,surname,"Korea, Republic of","Korea, Republic of","Korea, Republic of",1.0,True,single_candidate
+park,surname,"Korea, Republic of","Korea, Republic of","Korea, Republic of",1.0,True,single_candidate
+winkler,surname,Austria,Austria,Austria,1.0,True,single_candidate
+fujii,surname,Japan,Japan,Japan,1.0,True,single_candidate
+hocevar,surname,Slovenia,Slovenia,Slovenia,1.0,True,single_candidate
+seoh,surname,"Korea, Republic of","Korea, Republic of","Korea, Republic of",1.0,True,single_candidate
+ristevski,surname,North Macedonia,North Macedonia,North Macedonia,1.0,True,single_candidate
+akter,surname,Bangladesh,Bangladesh,Bangladesh,1.0,True,single_candidate
+jang,surname,"Korea, Republic of","Korea, Republic of","Korea, Republic of",1.0,True,single_candidate
+pae,surname,"Korea, Republic of","Korea, Republic of","Korea, Republic of",1.0,True,single_candidate
+simic,surname,Bosnia and Herzegovina,Bosnia and Herzegovina,Bosnia and Herzegovina,1.0,True,single_candidate
+rose,surname,United Kingdom,United Kingdom,United Kingdom,1.0,True,single_candidate
+dvorakova,surname,Czechia,Czechia,Czechia,1.0,True,single_candidate
+wouters,surname,Belgium,Belgium,Belgium,1.0,True,single_candidate
+janev,surname,North Macedonia,North Macedonia,North Macedonia,1.0,True,single_candidate
+demir,surname,Türkiye,Türkiye,Türkiye,1.0,True,single_candidate
+samarasinghe,surname,Sri Lanka,Sri Lanka,Sri Lanka,1.0,True,single_candidate
+sepulveda,surname,Chile,Chile,Chile,1.0,True,single_candidate
+nakashima,surname,Japan,Japan,Japan,1.0,True,single_candidate
+prifti,surname,Albania,Albania,Albania,1.0,True,single_candidate

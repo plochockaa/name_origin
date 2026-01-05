@@ -1,0 +1,41 @@
+======================================================================
+NAME COUNTRY INFERENCE EVALUATION SUMMARY
+Generated: 2026-01-05 21:19:17
+======================================================================
+
+Note: This evaluates the LLM's ability to identify the most likely
+country of origin when given a name and its possible countries.
+
+FORENAMES:
+----------------------------------------------------------------------
+  Total Test Set:              20
+  Successful Predictions:      20 (100.0% coverage)
+  - Single candidate (trivial): 15
+  - Multiple candidates:        5
+
+  Accuracy (all):              20/20 (100.00%)
+  Accuracy (multi-candidate):  5/5 (100.00%)
+
+  No Candidates:               0
+  LLM Prediction Failed:       0
+
+SURNAMES:
+----------------------------------------------------------------------
+  Total Test Set:              20
+  Successful Predictions:      20 (100.0% coverage)
+  - Single candidate (trivial): 20
+  - Multiple candidates:        0
+
+  Accuracy (all):              20/20 (100.00%)
+  Accuracy (multi-candidate):  0/0 (0.00%)
+
+  No Candidates:               0
+  LLM Prediction Failed:       0
+
+======================================================================
+OVERALL STATISTICS:
+  Total Test Set:              40
+  Coverage:                    40/40 (100.0%)
+  Accuracy (all):              40/40 (100.00%)
+  Accuracy (multi-candidate):  5/5 (100.00%)
+======================================================================
