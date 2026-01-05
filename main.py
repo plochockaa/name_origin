@@ -256,8 +256,8 @@ def format_output(result):
 if __name__ == "__main__":
     # Test the function
     result = infer_country(
-        "Kim",
-        "Lee", 
+        "Aleksandra", 
+        "Płochocka", 
         pd.read_csv("data/final_forenames.csv"), 
         pd.read_csv("data/final_surnames.csv")
     )
