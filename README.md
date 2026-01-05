@@ -106,11 +106,11 @@ The model can output multiple plausible countries with probabilities, rather tha
 
 Example output on the test set:
 
-| Input Name         | Top Prediction | True Country | Probability |
-|-------------------|----------------|--------------|------------|
-| Aleksandra Plochocka | Poland         | Poland       | 0.85       |
-| John Smith          | USA            | UK           | 0.60       |
-| Chen Wei            | China          | China        | 0.90       |
+| Input Name         | Top Prediction  | Probability |
+|-------------------|----------------|------------|
+| Kim Lee | Republic of Korea  | 0.60     |
+| Александр Иванов          | Russian Federation           |  0.60       |
+| Ελένη Αθανασίου            | Greece          |  0.85       |
 
 > Preliminary results show strong alignment for **distinctive names**; ambiguous or multicultural names are distributed over multiple countries.
 
