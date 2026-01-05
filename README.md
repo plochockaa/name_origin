@@ -1,6 +1,6 @@
 # Likelihood of Names and Surnames from Countries
 
-This project is a **minimum viable product (MVP)** for an application that takes a **forename and surname** as input and assigns a **probability distribution over countries** where the name is likely to originate.  
+This project is a minimum viable product (MVP) for an application that takes a forename and surname as input and assigns a probability distribution over countries where the name is likely to originate.  
 
 For example, given the input: "Aleksandra Plochocka"
 
@@ -42,7 +42,7 @@ graph TD
 ```
 
     
-The core algorithm estimates the likelihood of a name belonging to a particular country by combining **forename and surname distributions** across datasets.  
+The core algorithm estimates the likelihood of a name belonging to a particular country by combining forename and surname distributions across datasets.  
 
 High-level steps:  
 
