@@ -2,31 +2,31 @@
 
 This project is a minimum viable product (MVP) for an application that takes a forename and surname as input and assigns a probability distribution over countries where the name is likely to originate.  
 
-For example, given the input: "Aleksandra Plochocka"
+For example, given the input: "John Smith"
 
 
 The algorithm might assign probabilities like:
 
 | Country | Probability |
 |---------|------------|
-| Poland  | 0.85       |
-| Germany | 0.10       |
-| USA     | 0.05       |
+| UK  | 0.85       |
+| USA | 0.10       |
+| Australia     | 0.05       |
 
 ---
 
 ## Data
 
-The current implementation uses the following datasets:  
+The current implementation uses the following datasets to create a synthetic set of forenames, surnames and countries:  
 
-- **[Popular Names by Country (GitHub)](https://github.com/sigpwned/popular-names-by-country-dataset)** – lists popular forenames and surnames per country.  
-- **[names-dataset (PyPI)](https://pypi.org/project/names-dataset/)** – a large first and last name dataset with country distributions.  
+- [Popular Names by Country (GitHub)](https://github.com/sigpwned/popular-names-by-country-dataset) – lists popular forenames and surnames per country.  
+- [names-dataset (PyPI)](https://pypi.org/project/names-dataset/)** – a large first and last name dataset with country distributions.  
  
 
 ### Future Data Enhancements
 
 - Scrape popular baby names from official national statistics sites for more coverage across countries.
-- **[Hobson/surname-nationality (HuggingFace)](https://huggingface.co/datasets/Hobson/surname-nationality)** – provides surnames with nationality mappings. 
+- [Hobson/surname-nationality (HuggingFace)](https://huggingface.co/datasets/Hobson/surname-nationality) – provides surnames with nationality mappings. 
 - Leverage Wikipedia and other open sources to expand coverage of forenames and surnames globally.  
 
 ---
@@ -48,15 +48,14 @@ High-level steps:
 
 1. **Normalize inputs**: lowercase, remove accents, strip spaces/hyphens.  
 2. **Handle transliteration variants**: if applicable map common variations of names from non-Latin scripts.  
-3. **Lookup probabilities**: retrieve probability distributions from datasets.  
-4. **Combine forename and surname probabilities**: using a weighted or multiplicative model.  
-5. **Return ranked list of countries** with probabilities.  
+3. **Lookup probabilities**: retrieve probable list of countries from joint lookup tables.
+4. **Return ranked list of countries** with probabilities using an LLM in combination with the lookup table.  
 
 ---
 
 ### Handling Multiple Possible Countries
 
-Many names are **common in multiple countries**, often due to historical, linguistic, or colonial overlap.  
+Many names are common in multiple countries, often due to historical, linguistic, or colonial overlap.  
 
 Example:  
 
@@ -65,25 +64,24 @@ Example:
 | Silva | Portugal, Brazil, Mozambique  |
 | Lee   | China, Korea, USA             |
 
-The algorithm distributes probability accordingly, reflecting **real-world ambiguity**.
+The algorithm distributes probability accordingly, reflecting real-world ambiguity.
 
 ---
 
 ### Spelling Mistakes and Transliteration
 
-Names can appear in **different spellings** due to typos or transliteration from other scripts:  
+Names can appear in different spellings due to typos or transliteration from other scripts:  
 
 - **Cyrillic**: Михаил → Mikhail, Mihail  
 - **Arabic**: محمد → Muhammad, Mohamed, Mohamad  
-- **Persian/Other**: Mohammad, Muhamed  
 
-The algorithm uses **variant mapping and probabilities** to consolidate these variations to likely countries.  
+The algorithm uses simple transliteration to switch names to roman characters.
 
 ---
 
 ### Multicultural Names
 
-Some names are **inherently multicultural** due to migration, mixed heritage, or international usage.  
+Some names are inherently multicultural due to migration, mixed heritage, or international usage.  
 
 Example:  
 
@@ -92,7 +90,7 @@ Example:
 | Sofia           | Italy, Spain, Bulgaria     |
 | Aleksandra      | Poland, Russia, Ukraine    |
 
-The model can output **multiple plausible countries with probabilities**, rather than forcing a single match.
+The model can output multiple plausible countries with probabilities, rather than forcing a single match.
 
 ---
 
@@ -101,8 +99,8 @@ The model can output **multiple plausible countries with probabilities**, rather
 ### Testing
 
 - Dataset is split into **train/test** for validation.  
-- Accuracy is measured by how often the **top predicted country matches the true country**.  
-- Probabilistic metrics like **cross-entropy loss** or **top-k accuracy** can also be applied.  
+- Accuracy is measured by how often the top predicted country matches the true country.  
+- Probabilistic metrics like cross-entropy loss or top-k accuracy can also be applied.  
 
 ### Results
 
@@ -125,60 +123,22 @@ You can use this project to **predict the likelihood of a forename and surname b
 ### 1️⃣ Install Dependencies
 
 ```
-pip install pandas names-dataset datasets
+uv sync
 ```
 
 
 ### 2️⃣ Load the Model / Data
 ```
-import pandas as pd
-from names_dataset import NameDataset
-from datasets import load_dataset
+uv run python main.py
 ```
-# Example: load HuggingFace surname-nationality dataset
-hf_dataset = load_dataset("Hobson/surname-nationality", split="train")
-df_surnames = hf_dataset.to_pandas()
+# Example: change the names in the main.py script (lines 259-260)
 
-# Initialize the names-dataset library
-nd = NameDataset()
-
-### 3️⃣ Predict Country Probabilities
-
+### 3️⃣ Evaluation script
+Use, 
 ```
-def predict_name_country(first_name, last_name):
-    # Normalize input
-    first_name = first_name.strip().title()
-    last_name  = last_name.strip().title()
-    
-    results = {}
-    
-    # Forename probabilities from names-dataset
-    fn_info = nd.search(first_name).get("first_name", {})
-    fn_countries = fn_info.get("country", {})
-    
-    # Surname probabilities from HuggingFace dataset
-    sn_rows = df_surnames[df_surnames['surname'] == last_name]
-    sn_countries = {}
-    if not sn_rows.empty:
-        sn_countries = {row['nationality']: 1.0 for _, row in sn_rows.iterrows()}  # Example
-    
-    # Combine probabilities (simple additive approach)
-    for country in set(list(fn_countries.keys()) + list(sn_countries.keys())):
-        fn_prob = fn_countries.get(country, 0)
-        sn_prob = sn_countries.get(country, 0)
-        results[country] = (fn_prob + sn_prob) / 2  # simple average
-    
-    # Sort results
-    results = dict(sorted(results.items(), key=lambda x: x[1], reverse=True))
-    
-    return results
+uv run python evaluate_method.py --test-size 0.2
 ```
-
-# Example usage
-name_probs = predict_name_country("Aleksandra", "Plochocka")
-print(name_probs)
-Expected Output (example):
-{'Poland': 0.85, 'Germany': 0.10, 'USA': 0.05}
+to evaluate how well the model predicts countries for given first and last names (this is set to the standard 80/20 train/test split).
 
 ### 4️⃣ Notes
 The algorithm currently outputs probabilities for multiple countries, especially for multicultural or ambiguous names.
