@@ -1,161 +1,139 @@
-# Likelihood of Names and Surnames from Countries
+# Name Origin — Country Likelihood from Forenames and Surnames
 
-This project is a minimum viable product (MVP) for an application that takes a forename and surname as input and assigns a probability distribution over countries where the name is likely to originate.  
+An MVP pipeline that takes a forename and surname and returns a probability distribution over the countries where that name is likely to originate.
 
-For example, given the input: "John Smith"
+**Example** — given `"John Smith"`, the system might return:
 
-
-The algorithm might assign probabilities like:
-
-| Country | Probability |
-|---------|------------|
-| UK  | 0.85       |
-| USA | 0.10       |
-| Australia     | 0.05   |
+| Country   | Probability |
+|-----------|-------------|
+| United Kingdom | 0.85   |
+| United States  | 0.10   |
+| Australia      | 0.05   |
 
 ---
 
-## Data
+## How it works
 
-The current implementation uses the following datasets to create a synthetic set of forenames, surnames and countries:  
-
-- [Popular Names by Country (GitHub)](https://github.com/sigpwned/popular-names-by-country-dataset) – lists popular forenames and surnames per country.  
-- [names-dataset (PyPI)](https://pypi.org/project/names-dataset/) – a large first and last name dataset with country distributions.  
- 
-
-### Future Data Enhancements
-
-- Scrape popular baby names from official national statistics sites for more coverage across countries.
-- [Hobson/surname-nationality (HuggingFace)](https://huggingface.co/datasets/Hobson/surname-nationality) – provides surnames with nationality mappings. 
-- Leverage Wikipedia and other open sources to expand coverage of forenames and surnames globally.  
-
----
-
-## Algorithm
-
-```mermaid
-graph TD
-    A[Input: Forename, Surname] --> B[Normalization]
-    B --> C[Transliteration if applicable]
-    C --> D[Combined lookup probabilities]
-    D --> E[Output: Countries ranked by probability]
+```
+Input: forename + surname
+       ↓
+Normalise (lowercase, strip accents, collapse hyphens)
+       ↓
+Transliterate if non-Latin script (Cyrillic, Arabic, …)
+       ↓
+Lookup in forename + surname tables → candidate countries
+       ↓
+LLM ranks candidates by probability
+       ↓
+Output: ranked country list with probabilities
 ```
 
-    
-The core algorithm estimates the likelihood of a name belonging to a particular country by combining forename and surname distributions across datasets.  
+The lookup tables are built by intersecting two public datasets:
 
-High-level steps:  
+| Dataset | What it provides |
+|---------|-----------------|
+| [sigpwned/popular-names-by-country](https://github.com/sigpwned/popular-names-by-country-dataset) | Popular forenames and surnames per country |
+| [names-dataset (PyPI)](https://pypi.org/project/names-dataset/) | Large first/last name corpus with country distributions |
 
-1. **Normalize inputs**: lowercase, remove accents, strip spaces/hyphens.  
-2. **Handle transliteration variants**: if applicable map common variations of names from non-Latin scripts.  
-3. **Lookup probabilities**: retrieve probable list of countries from joint lookup tables.
-4. **Return ranked list of countries** with probabilities using an LLM in combination with the lookup table.  
-
----
-
-### Handling Multiple Possible Countries
-
-Many names are common in multiple countries, often due to historical, linguistic, or colonial overlap.  
-
-Example:  
-
-| Name  | Possible Countries            |
-|-------|-------------------------------|
-| Silva | Portugal, Brazil, Mozambique  |
-| Lee   | China, Korea, USA             |
-
-The algorithm distributes probability accordingly, reflecting real-world ambiguity.
+Only names confirmed by **both** sources are kept, reducing noise.
 
 ---
 
-### Spelling Mistakes and Transliteration
+## Handling ambiguity
 
-Names can appear in different spellings due to typos or transliteration from other scripts:  
+Many names are common across multiple countries due to linguistic, historical, or colonial overlap:
 
-- **Cyrillic**: Михаил → Mikhail, Mihail  
-- **Arabic**: محمد → Muhammad, Mohamed, Mohamad  
+| Name    | Possible Countries             |
+|---------|--------------------------------|
+| Silva   | Portugal, Brazil, Mozambique   |
+| Lee     | China, Korea, United States    |
+| Sofia   | Italy, Spain, Bulgaria         |
 
-The algorithm uses simple transliteration to switch names to roman characters.
+The LLM is given the full candidate list and asked to rank by likelihood, allowing multi-country output.
 
----
+### Transliteration
 
-### Multicultural Names
+Names from non-Latin scripts are romanised before lookup:
 
-Some names are inherently multicultural due to migration, mixed heritage, or international usage.  
-
-Example:  
-
-| Name            | Possible Countries          |
-|-----------------|----------------------------|
-| Sofia           | Italy, Spain, Bulgaria     |
-| Aleksandra      | Poland, Russia, Ukraine    |
-
-The model can output multiple plausible countries with probabilities, rather than forcing a single match.
-
----
-
-## Evaluation
-
-### Testing
-
-- Dataset is split into **train/test** for validation.  
-- Accuracy is measured by how often the top predicted country matches the true country.  
-- Probabilistic metrics like cross-entropy loss or top-k accuracy can also be applied.  
-
-### Results
-
-Example output on the test set:
-
-| Input Name         | Top Prediction  | Probability |
-|-------------------|----------------|------------|
-| Kim Lee | Republic of Korea  | 0.60     |
-| Александр Иванов          | Russian Federation           |  0.60       |
-| Ελένη Αθανασίου            | Greece          |  0.85       |
-| Aleksandra Płochocka |  Bulgaria | 0.6%  |
-
-
-When running an evaluation looking at 100 first names and surnames picked using a train-test split I found the algorithm had 100% accuracy. This is unlikely and shows there is an error with evaluation. 
-
-<img width="512" height="556" alt="Screenshot 2026-01-05 at 21 54 12" src="https://github.com/user-attachments/assets/c68aec0f-52f2-4ab9-9c79-375166606429" />
-
-Note, here I used my own name and can see that I do not get Poland, rather: 
-
-<img width="443" height="307" alt="Screenshot 2026-01-05 at 21 56 57" src="https://github.com/user-attachments/assets/083674c5-cf9f-4a34-b746-a3bf244d145c" />
-
-There may be errors with the algorithmic approach due to the 1 to many name to countries (hence their evaluation is marked as accurate is catching 1 of the possible listed countries).
-
-
-
-> Preliminary results show strong alignment for **distinctive names**; ambiguous or multicultural names are distributed over multiple countries.
+- Cyrillic: `Михаил` → `Mikhail`
+- Arabic: `محمد` → `Muhammad`
 
 ---
 
 ## Usage
 
-You can use this project to **predict the likelihood of a forename and surname belonging to certain countries**.  
+### Install dependencies
 
-### 1️⃣ Install Dependencies
-
-```
+```bash
 uv sync
 ```
 
+### Run inference
 
-### 2️⃣ Load the Model / Data
-```
+```bash
 uv run python main.py
 ```
-# Example: change the names in the main.py script (lines 259-260)
 
-### 3️⃣ Evaluation script
-Use, 
-```
+Edit `main.py` lines 258–260 to change the input name.
+
+### Run evaluation
+
+```bash
 uv run python evaluate_method.py --test-size 0.2
 ```
-to evaluate how well the model predicts countries for given first and last names (this is set to the standard 80/20 train/test split).
 
-### 4️⃣ Notes
-The algorithm currently outputs probabilities for multiple countries, especially for multicultural or ambiguous names.
-Transliterated names (from Cyrillic, Arabic, etc.) may need preprocessing or variant mapping for better accuracy.
-This is an MVP; probability calculation can be refined using weighted datasets or machine learning models.
+Requires `HF_TOKEN` set in a `.env` file (HuggingFace inference token):
 
+```
+HF_TOKEN=hf_...
+```
+
+Optional flags:
+
+```bash
+# Limit samples (faster for testing)
+uv run python evaluate_method.py --max-samples 50
+
+# Control number of distractor countries added per name (default 5)
+uv run python evaluate_method.py --n-distractors 5
+```
+
+---
+
+## Evaluation methodology
+
+The evaluation tests the LLM's ability to identify the correct country of origin for a name, given a mixed candidate list.
+
+**Setup (80/20 train/test split on unique names):**
+
+1. Split the lookup tables into train (80%) and test (20%) by name — names are deduplicated before splitting so no name appears in both sets.
+2. For each test name, take its true countries and add **N random distractor countries** sampled from the full country pool.
+3. Pass the shuffled candidate list (true + distractors) to the LLM.
+4. Mark as correct if the LLM's top-ranked country is in the true country list.
+
+This avoids the trivial 100%-accuracy result that occurs when the candidate list contains only the correct answers.
+
+**Output files:**
+
+| File | Contents |
+|------|----------|
+| `evaluation_results.csv` | Per-name predictions, true countries, distractors used, correctness |
+| `evaluation_summary.txt` | Aggregate accuracy and coverage statistics |
+
+---
+
+## Limitations
+
+- **Data coverage**: only names present in both source datasets are included. Rare or regional names may be missing.
+- **Single ground truth**: the dataset records all countries where a name is common, not a single "primary" country. Accuracy is measured as top-1 prediction ∈ true country set.
+- **Transliteration variants**: `Muhammad`, `Mohamed`, `Mohamad` are treated as separate entries. Variant normalisation is not exhaustive.
+- **LLM dependency**: results depend on the model used (currently `CohereLabs/command-a-reasoning-08-2025` via HuggingFace router). Changing the model may affect accuracy.
+
+---
+
+## Future enhancements
+
+- Scrape official national statistics sites for more comprehensive name coverage.
+- Add [Hobson/surname-nationality](https://huggingface.co/datasets/Hobson/surname-nationality) as a third data source.
+- Weight country probabilities by name frequency, not just presence.
+- Evaluate with an independent held-out dataset for more reliable accuracy estimates.
