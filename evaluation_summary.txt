@@ -1,41 +1,41 @@
 ======================================================================
 NAME COUNTRY INFERENCE EVALUATION SUMMARY
-Generated: 2026-01-05 21:53:30
+Generated: 2026-06-15 23:24:51
 ======================================================================
 
-Note: This evaluates the LLM's ability to identify the most likely
-country of origin when given a name and its possible countries.
+Note: Each test name is evaluated with its true countries plus random
+distractor countries. The LLM must pick a true country from that mix.
 
 FORENAMES:
 ----------------------------------------------------------------------
-  Total Test Set:              100
-  Successful Predictions:      100 (100.0% coverage)
-  - Single candidate (trivial): 74
-  - Multiple candidates:        26
+  Total Test Set:              249
+  Successful Predictions:      121 (48.6% coverage)
+  - Single true country:        93
+  - Multiple true countries:    28
 
-  Accuracy (all):              100/100 (100.00%)
-  Accuracy (multi-candidate):  26/26 (100.00%)
+  Accuracy (all):              99/121 (81.82%)
+  Accuracy (multi-true):       28/28 (100.00%)
 
   No Candidates:               0
-  LLM Prediction Failed:       0
+  LLM Prediction Failed:       128
 
 SURNAMES:
 ----------------------------------------------------------------------
-  Total Test Set:              100
-  Successful Predictions:      100 (100.0% coverage)
-  - Single candidate (trivial): 81
-  - Multiple candidates:        19
+  Total Test Set:              343
+  Successful Predictions:      272 (79.3% coverage)
+  - Single true country:        229
+  - Multiple true countries:    43
 
-  Accuracy (all):              100/100 (100.00%)
-  Accuracy (multi-candidate):  19/19 (100.00%)
+  Accuracy (all):              248/272 (91.18%)
+  Accuracy (multi-true):       41/43 (95.35%)
 
-  No Candidates:               0
-  LLM Prediction Failed:       0
+  No Candidates:               7
+  LLM Prediction Failed:       64
 
 ======================================================================
 OVERALL STATISTICS:
-  Total Test Set:              200
-  Coverage:                    200/200 (100.0%)
-  Accuracy (all):              200/200 (100.00%)
-  Accuracy (multi-candidate):  45/45 (100.00%)
+  Total Test Set:              592
+  Coverage:                    393/592 (66.4%)
+  Accuracy (all):              347/393 (88.30%)
+  Accuracy (multi-true):       69/71 (97.18%)
 ======================================================================
