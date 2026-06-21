@@ -1,5 +1,6 @@
 # This script provides an interface to infer the likely country of origin for a given forename and/or surname.
 # 
+import ast
 import pandas as pd
 import os
 from openai import OpenAI
@@ -45,7 +46,7 @@ def lookup_name_country(
             countries_value = row.iloc[0]["countries"]
             # Convert string representation of list to actual list
             if isinstance(countries_value, str):
-                candidates_forename = json.loads(countries_value.replace("'", '"'))
+                candidates_forename = ast.literal_eval(countries_value)
             else:
                 candidates_forename = countries_value if isinstance(countries_value, list) else []
         
@@ -68,7 +69,7 @@ def lookup_name_country(
             countries_value = row.iloc[0]["countries"]
             # Convert string representation of list to actual list
             if isinstance(countries_value, str):
-                candidates_surname = json.loads(countries_value.replace("'", '"'))
+                candidates_surname = ast.literal_eval(countries_value)
             else:
                 candidates_surname = countries_value if isinstance(countries_value, list) else []
         

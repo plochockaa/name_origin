@@ -1,4 +1,5 @@
 import unicodedata
+from transliterate import translit
 
 # STEP 1: Normalization
 def normalize_name(s):

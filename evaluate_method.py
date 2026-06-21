@@ -8,6 +8,7 @@ This script evaluates the accuracy of the name country inference system by:
 4. Generating comprehensive evaluation metrics
 """
 
+import ast
 import pandas as pd
 import os
 import json
@@ -26,7 +27,7 @@ def get_ground_truth_countries(test_row):
     """Extract ground truth countries from test row."""
     countries_value = test_row['countries']
     if isinstance(countries_value, str):
-        return json.loads(countries_value.replace("'", '"'))
+        return ast.literal_eval(countries_value)
     return countries_value if isinstance(countries_value, list) else []
 
 
